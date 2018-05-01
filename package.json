@@ -1,0 +1,24 @@
+{
+  "name": "hubot-ecs-shipper",
+  "version": "0.0.2",
+  "description": "Perform ECS Deployments using Hubot and Lambda",
+  "main": "index.coffee",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hubot"
+  ],
+  "author": "justMiles",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/justmiles/hubot-ecs-shipper.git"
+  },
+  "bugs": {
+    "url": "https://github.com/justmiles/hubot-ecs-shipper/issues"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.230.1"
+  }
+}
