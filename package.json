@@ -1,6 +1,6 @@
 {
   "name": "hubot-ecs-shipper",
-  "version": "0.0.2",
+  "version": "0.0.6",
   "description": "Perform ECS Deployments using Hubot and Lambda",
   "main": "index.coffee",
   "scripts": {

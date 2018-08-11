@@ -2,7 +2,7 @@
 #   Perform ECS Deployments using Hubot and Lambda
 #
 # Configuration:
-#   ECS_SHIP_ROOM - Limit deployments to a specific channel
+#   USE_HUBOT_AUTH - Reqires hubot-auth module installed and configured (defaults to false)
 #   ECS_SHIP_TIMEOUT - Deployment timeout, in seconds. Defaults to 600
 #   ECS_SHIP_INTERVAL - How often to poll the ECS event feed, in seconds. Defaults to 15
 #   ECS_SHIP_LAMBDA_FUNCTION - Name of ECS lambda function to invoke. Defaults to ecs-deploy
@@ -23,12 +23,19 @@ module.exports = (robot) ->
 
   robot.respond /ship ((\S*)@(\S*)(\s*)?)*\s*to\s*(\S*)(\s*--fast)?/i, (msg) ->
     
-    lambda = new AWS.Lambda()
-    ecs = new AWS.ECS()
-
     # env is the environment to deploy to
     env = msg.match[msg.match.length - 2]
     
+    if process.env['USE_HUBOT_AUTH']?
+      role = "#{env.toLowerCase()}_deployer"
+      user = robot.brain.userForName(msg.message.user.name)
+      unless robot.auth.hasRole(user, role)
+        msg.reply "Access Denied. You need role #{role} to perform this action."
+        return
+    
+    lambda = new AWS.Lambda()
+    ecs = new AWS.ECS()
+        
     # fast determins whether or not to manually stop current tasks
     fast = msg.match[msg.match.length - 1]?
     
